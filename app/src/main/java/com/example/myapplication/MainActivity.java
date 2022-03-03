@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
             if (singlefile.isDirectory() && !singlefile.isHidden())
             {
                 arrayList.addAll(findSong(singlefile));
-
             }
             else{
                 if(singlefile.getName().endsWith(".wav") || singlefile.getName().endsWith(".mp3"))
