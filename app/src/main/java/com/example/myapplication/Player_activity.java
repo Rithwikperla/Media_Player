@@ -70,11 +70,9 @@ public class Player_activity extends AppCompatActivity {
         seekmusic = findViewById(R.id.seekbar);
         visualizer = findViewById(R.id.blast);
         imageView = findViewById(R.id.imageview);
-        getActionBar().setTitle("Now Playing");
+        getSupportActionBar().setTitle("Now Playing");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
         if(mediaPlayer != null)
         {
             mediaPlayer.stop();
@@ -128,7 +126,7 @@ public class Player_activity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                mediaPlayer.seekTo(seekBar.getProgress());
             }
         });
         String endTime = createTime(mediaPlayer.getDuration());
@@ -157,6 +155,7 @@ public class Player_activity extends AppCompatActivity {
                 else
                 {
                     btnplay.setBackgroundResource(R.drawable.ic_pause);
+                    mediaPlayer.start();
                 }
             }
         });
@@ -171,6 +170,8 @@ public class Player_activity extends AppCompatActivity {
                 Sname = mysongs.get(position).getName();
                 txtsname.setText(Sname);
                 mediaPlayer.start();
+                String endTime = createTime(mediaPlayer.getDuration());
+                txtsstop.setText(endTime);
                 btnplay.setBackgroundResource(R.drawable.ic_pause);
                 int audiosessionId = mediaPlayer.getAudioSessionId();
                 if(audiosessionId != -1)
@@ -189,6 +190,8 @@ public class Player_activity extends AppCompatActivity {
                 Uri u = Uri.parse(mysongs.get(position).toString());
                 mediaPlayer = MediaPlayer.create(getApplicationContext(),u);
                 Sname = mysongs.get(position).getName();
+                String endTime = createTime(mediaPlayer.getDuration());
+                txtsstop.setText(endTime);
                 txtsname.setText(Sname);
                 mediaPlayer.start();
                 btnplay.setBackgroundResource(R.drawable.ic_pause);
@@ -253,7 +256,6 @@ public class Player_activity extends AppCompatActivity {
         if(sec<10)
         {
             time+="0";
-
         }
         time+=sec;
         return time;

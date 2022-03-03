@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
             public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
                 displaysongs();
             }
-
             @Override
             public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
                 permissionToken.continuePermissionRequest();
@@ -54,26 +53,22 @@ public class MainActivity extends AppCompatActivity {
         }).check();
     }
 
-    public ArrayList<File> findSong(File file)
-    {
+    public ArrayList<File> findSong(File file) {
         ArrayList<File> arrayList = new ArrayList<>();
         File[] files = file.listFiles();
-        for (File singlefile: files){
-            if (singlefile.isDirectory() && !singlefile.isHidden())
-            {
-                arrayList.addAll(findSong(singlefile));
-            }
-            else{
-                if(singlefile.getName().endsWith(".wav") || singlefile.getName().endsWith(".mp3"))
-                {
-                    arrayList.add(singlefile);
+        if (files != null) {
+            for (File singlefile : files) {
+                if (singlefile.isDirectory() && !singlefile.isHidden()) {
+                    arrayList.addAll(findSong(singlefile));
+                } else {
+                    if (singlefile.getName().endsWith(".wav") || singlefile.getName().endsWith(".mp3")) {
+                        arrayList.add(singlefile);
+                    }
                 }
             }
         }
         return arrayList;
-
     }
-
     void displaysongs()
     {
         final ArrayList<File> mysongs = findSong(Environment.getExternalStorageDirectory());
@@ -81,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         items = new String[mysongs.size()];
         for(int i = 0; i<mysongs.size();i++)
         {
-            items[i] = mysongs.get(i).getName().toString().replace(".mp3","null").replace(".wav","null");
+            items[i] = mysongs.get(i).getName().toString().replace(".mp3","").replace(".wav","");
         }
         customAdapter customAdapter= new customAdapter();
         listview.setAdapter(customAdapter);
@@ -91,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 String songName = (String) listview.getItemAtPosition(position);
                 startActivity(new Intent(getApplicationContext(),Player_activity.class)
                 .putExtra("songs",mysongs).putExtra("songname",songName).putExtra("pos",position));
-
-
             }
         });
     }
